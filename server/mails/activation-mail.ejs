@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LMS Account Activation</title>
+
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+      min-width: 100%;
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      background-color: #fafafa;
+      color: #222222;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 20px;
+    }
+
+    p {
+      margin: 0 0 16px;
+    }
+
+    .email-wrapper {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .email-container {
+      background-color: #ffffff;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .email-header {
+      background-color: #0070f3;
+      color: #ffffff;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .email-body {
+      padding: 24px;
+    }
+
+    .activation-code {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      margin: 24px 0;
+      color: #0070f3;
+    }
+
+    .email-footer {
+      background-color: #f6f6f6;
+      padding: 20px;
+      font-size: 14px;
+      text-align: center;
+      color: #666666;
+    }
+
+    a {
+      color: #0070f3;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="email-wrapper">
+    <div class="email-container">
+
+      <!-- Header -->
+      <div class="email-header">
+        <h1>Welcome to LMS</h1>
+      </div>
+
+      <!-- Body -->
+      <div class="email-body">
+        <p>Hello <strong><%= user.name %></strong>,</p>
+
+        <p>
+          Thank you for registering with LMS.  
+          To activate your account, please use the activation code below:
+        </p>
+
+        <div class="activation-code">
+          <%= activationCode %>
+        </div>
+
+        <p>
+          This code is valid for <strong>5 minutes</strong>.
+          Please enter it on the account activation page to complete your registration.
+        </p>
+
+        <p>
+          If you did not create an account with LMS, you can safely ignore this email.
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <div class="email-footer">
+        <p>
+          Need help? Contact us at
+          <a href="mailto:support@lms.com">support@lms.com</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
