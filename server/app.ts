@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import errorMiddleware from './middleware/error';
 import userRoutes from './routes/user.route';
+import courseRoutes from './routes/course.route';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use(
 );
 // ================= Routes =================
 app.use('/api/v1/', userRoutes);
+app.use('/api/v1/', courseRoutes);
 
 // ================= Test Route =================
 app.get('/test', (req: Request, res: Response) => {

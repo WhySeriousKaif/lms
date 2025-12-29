@@ -2,7 +2,10 @@ import mongoose, { Document, Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import dotenv from 'dotenv';
+dotenv.config();
 
+import jwt from 'jsonwebtoken';
 export interface IUser extends Document {
   name: string;
   email: string;
@@ -17,6 +20,8 @@ export interface IUser extends Document {
   comparePassword: (password: string) => Promise<boolean>;
   createdAt: Date;
   updatedAt: Date;
+  SignAccessToken: () => string;
+  SignRefreshToken: () => string;
 }
 
 const userSchema: Schema<IUser> = new mongoose.Schema(
@@ -40,7 +45,6 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, 'Password is required'],
       minlength: [8, 'Password must be at least 8 characters long'],
       maxlength: [32, 'Password must be at most 32 characters long'],
       select: false, // 🔥 SECURITY BEST PRACTICE
@@ -75,6 +79,16 @@ userSchema.pre('save', async function () {
 
   this.password = await bcrypt.hash(this.password, 10);
 });
+
+//sign access token
+userSchema.methods.SignAccessToken = function () {
+  return jwt.sign({id: this._id}, process.env.ACCESS_TOKEN as string, {expiresIn: '5m'});
+};
+
+//sign refresh token
+userSchema.methods.SignRefreshToken = function () {
+  return jwt.sign({id: this._id}, process.env.REFRESH_TOKEN as string, {expiresIn: '7d'});
+};
 
 
 // ================= Methods =================

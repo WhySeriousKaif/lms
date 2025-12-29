@@ -22,38 +22,38 @@ const sendMail = async (options: EmailOptions): Promise<void> => {
 
   try {
     const port = Number(process.env.SMTP_PORT);
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
       port: port,
       secure: port === 465, // true for 465, false for other ports
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASSWORD,
-      },
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
+    },
       tls: {
         // Do not fail on invalid certificates
         rejectUnauthorized: false,
       },
-    });
+  });
 
     // Verify connection configuration
     await transporter.verify();
 
-    const { email, subject, template, data } = options;
+  const { email, subject, template, data } = options;
 
-    // Absolute path to EJS template
-    const templatePath = path.join(__dirname, '../mails', template);
+  // Absolute path to EJS template
+  const templatePath = path.join(__dirname, '../mails', template);
 
-    // Render HTML
-    const html = await ejs.renderFile(templatePath, data);
+  // Render HTML
+  const html = await ejs.renderFile(templatePath, data);
 
-    // Send mail
-    await transporter.sendMail({
-      from: `"LMS Support" <${process.env.SMTP_USER}>`,
-      to: email,
-      subject,
-      html,
-    });
+  // Send mail
+  await transporter.sendMail({
+    from: `"LMS Support" <${process.env.SMTP_USER}>`,
+    to: email,
+    subject,
+    html,
+  });
     
     console.log(`✅ Activation email sent successfully to ${email}`);
   } catch (error: any) {
