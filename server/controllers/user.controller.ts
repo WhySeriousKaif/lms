@@ -9,6 +9,8 @@ import { sendToken } from "../utils/jwt";
 import { redis } from "../utils/redis";
 import { getUserById } from "../services/user.service";
 import cloudinary from "cloudinary";
+import { getAllUsersService, updateUserRoleService } from "../services/user.service";
+import mongoose from "mongoose";
 
 dotenv.config();
 
@@ -359,5 +361,101 @@ export const updateProfilePicture = catchAsyncError(
       message: "Profile picture updated successfully",
       user,
     });
+  }
+);
+
+//get all users --only for admin
+export const getAllUsers = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    getAllUsersService(req, res);
+  }
+);
+
+//update user role -- only for admin
+export const updateUserRole = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { userId, role } = req.body;
+
+      // Validate required fields
+      if (!userId || !role) {
+        return next(new ErrorHandler("UserId and role are required", 400));
+      }
+
+      // Validate role value
+      const validRoles = ['admin', 'user'];
+      if (!validRoles.includes(role)) {
+        return next(new ErrorHandler(`Invalid role. Must be one of: ${validRoles.join(', ')}`, 400));
+      }
+
+      // Validate userId format
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return next(new ErrorHandler("Invalid user id", 400));
+      }
+
+      // Check if user exists
+      const existingUser = await userModel.findById(userId);
+      if (!existingUser) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+
+      // Prevent admin from changing their own role
+      if (req.user?._id?.toString() === userId.toString()) {
+        return next(new ErrorHandler("You cannot change your own role", 400));
+      }
+
+      // Update user role
+      const user = await updateUserRoleService(userId, role);
+      
+      if (!user) {
+        return next(new ErrorHandler("Failed to update user role", 500));
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "User role updated successfully",
+        user,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);  
+
+//Delete user -- only for admin
+export const deleteUser = catchAsyncError(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { userId } = req.params;
+
+      // Validate userId format
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return next(new ErrorHandler("Invalid user id", 400));
+      }
+
+      // Check if user exists
+      const user = await userModel.findById(userId);
+      if (!user) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+
+      // Prevent admin from deleting themselves
+      if (req.user?._id?.toString() === userId.toString()) {
+        return next(new ErrorHandler("You cannot delete your own account", 400));
+      }
+
+      // Delete user from database
+      await userModel.findByIdAndDelete(userId);
+
+      // Delete user from Redis cache
+      await redis.del(userId);
+
+      res.status(200).json({
+        success: true,
+        message: "User deleted successfully",
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
   }
 );

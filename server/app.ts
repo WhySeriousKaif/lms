@@ -5,7 +5,8 @@ import dotenv from 'dotenv';
 import errorMiddleware from './middleware/error';
 import userRoutes from './routes/user.route';
 import courseRoutes from './routes/course.route';
-
+import orderRoutes from './routes/order.route';
+import notificationRoutes from './routes/notification.route';
 dotenv.config();
 
 export const app = express();
@@ -22,9 +23,11 @@ app.use(
   })
 );
 // ================= Routes =================
-app.use('/api/v1/', userRoutes);
-app.use('/api/v1/', courseRoutes);
-
+// app.use('/api/v1/', userRoutes); // this is the old way to combine all the routes
+// app.use('/api/v1/', courseRoutes); // this is the old way to combine all the routes
+// app.use('/api/v1/', orderRoutes); // this is the old way to combine all the routes
+// or we can use this way to combine all the routes
+app.use('/api/v1/', userRoutes, courseRoutes, orderRoutes, notificationRoutes); // this is the best way to combine all the routes
 // ================= Test Route =================
 app.get('/test', (req: Request, res: Response) => {
   res.status(200).json({ message: 'API is working' });

@@ -1,13 +1,14 @@
 import mongoose, { Document, Schema, model } from 'mongoose';
+import { IUser } from './user.model';
 
-interface IComment extends Document {
-    user: string;
+interface IComment extends Document { 
+    user: IUser;
     comment: string;
     commentReplies?: IComment[];
 }
 
 interface IReview extends Document {
-    user: string;
+    user: IUser;
     rating: number;
     comment: string;
     createdAt: Date;
@@ -64,6 +65,7 @@ const reviewSchema = new Schema<IReview>({
         type:Date,
         default:Date.now,
     },
+    commentReplies: [Object], // Array of comment replies
 });
 const commentSchema = new Schema<IComment>({
     user:Object,

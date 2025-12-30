@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmed</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f4f6f8;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #333;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .header {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #ffffff;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .content {
+      padding: 25px;
+    }
+
+    .content p {
+      line-height: 1.6;
+      font-size: 15px;
+      margin: 0 0 15px;
+    }
+
+    .order-info {
+      background-color: #f9fafb;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+
+    .order-info strong {
+      display: inline-block;
+      width: 120px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      text-align: left;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
+    }
+
+    .total {
+      text-align: right;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .cta {
+      text-align: center;
+      margin: 30px 0 10px;
+    }
+
+    .cta a {
+      display: inline-block;
+      background-color: #4f46e5;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .footer {
+      background-color: #f9fafb;
+      text-align: center;
+      padding: 15px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🎉 Order Confirmed</h1>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <p>Hello <strong><%= user.name %></strong>,</p>
+
+      <p>
+        Your eLearning order has been successfully confirmed.
+        We're excited to have you on board!
+      </p>
+
+      <!-- Order Info -->
+      <div class="order-info">
+        <p><strong>Order ID:</strong> <%= order._id %></p>
+        <p><strong>Order Date:</strong> <%= order.date %></p>
+      </div>
+
+      <!-- Items Table -->
+      <table>
+        <thead>
+          <tr>
+            <th>Course</th>
+            <th>Qty</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% order.items.forEach(item => { %>
+            <tr>
+              <td><%= item.title %></td>
+              <td><%= item.quantity %></td>
+              <td>₹<%= item.price %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+      <div class="total">
+        Total Paid: ₹<%= order.totalAmount %>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta">
+        <a href="<%= dashboardUrl %>">Go to Dashboard</a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>
+        If you have any questions, feel free to contact our support team.
+      </p>
+      <p>© <%= new Date().getFullYear() %> Your Platform. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
