@@ -163,6 +163,8 @@ export const logoutUser = catchAsyncError(
       httpOnly: true,
       sameSite: "lax",
     });
+    // Set user as logged out in Redis with 7 days expiration
+    await redis.setex(userId, 60 * 60 * 24 * 7, JSON.stringify({ id: userId }));
 
     res.clearCookie("refreshToken");
 

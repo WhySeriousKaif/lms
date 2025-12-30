@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema, model } from 'mongoose';
 import { IUser } from './user.model';
 
-interface IComment extends Document { 
+interface IComment extends Document {
     user: IUser;
     comment: string;
     commentReplies?: IComment[];
@@ -66,14 +66,14 @@ const reviewSchema = new Schema<IReview>({
         default:Date.now,
     },
     commentReplies: [Object], // Array of comment replies
-});
+}, {timestamps: true});
 const commentSchema = new Schema<IComment>({
     user:Object,
     comment:{
         type:String,
     },
     commentReplies: [Object],
-});
+}, {timestamps: true});
 const linkSchema = new Schema<ILink>({
     title:String,
     url:String,
@@ -128,7 +128,7 @@ const courseSchema = new Schema<ICourse>({
         type:Number,
         default:0,
     },
-});
+}, {timestamps: true});
 
 const CourseModel = model<ICourse>('Course', courseSchema);
 export default CourseModel;

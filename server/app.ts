@@ -7,6 +7,8 @@ import userRoutes from './routes/user.route';
 import courseRoutes from './routes/course.route';
 import orderRoutes from './routes/order.route';
 import notificationRoutes from './routes/notification.route';
+import analyticsRoutes from './routes/analytics.route';
+import layoutRoutes from './routes/layout.route';
 dotenv.config();
 
 export const app = express();
@@ -27,7 +29,7 @@ app.use(
 // app.use('/api/v1/', courseRoutes); // this is the old way to combine all the routes
 // app.use('/api/v1/', orderRoutes); // this is the old way to combine all the routes
 // or we can use this way to combine all the routes
-app.use('/api/v1/', userRoutes, courseRoutes, orderRoutes, notificationRoutes); // this is the best way to combine all the routes
+app.use('/api/v1/', userRoutes, courseRoutes, orderRoutes, notificationRoutes, analyticsRoutes, layoutRoutes); // this is the best way to combine all the routes
 // ================= Test Route =================
 app.get('/test', (req: Request, res: Response) => {
   res.status(200).json({ message: 'API is working' });
