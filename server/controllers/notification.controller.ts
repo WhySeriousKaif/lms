@@ -56,4 +56,4 @@ export const updateNotification = catchAsyncError(async (req: Request, res: Resp
     } catch (error: any) {
         return next(new ErrorHandler(error.message, 500));
     }
- });
+});

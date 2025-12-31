@@ -19,36 +19,36 @@ export const createLayout = catchAsyncError(async (req: Request, res: Response, 
             return next(new ErrorHandler("Layout type is required", 400));
         }
 
-        if(type === "Banner"){
-            const { image, title, subtitle } = req.body;
+      if(type === "Banner"){
+        const { image, title, subtitle } = req.body;
             
             if (!image || !title || !subtitle) {
                 return next(new ErrorHandler("Image, title, and subtitle are required for Banner", 400));
             }
 
-            const mycloudinaryImage = await cloudinary.v2.uploader.upload(image, {
-                folder: "layout",
-            });
+        const mycloudinaryImage = await cloudinary.v2.uploader.upload(image, {
+            folder: "layout",
+        });
             
             const banner = {
                 type: "Banner",
                 banner: {
                     image: {
-                        public_id: mycloudinaryImage.public_id,
-                        url: mycloudinaryImage.secure_url,
-                    },
-                    title,
-                    subtitle,
+                public_id: mycloudinaryImage.public_id,
+                url: mycloudinaryImage.secure_url,
+            },
+            title,
+            subtitle,
                 },
-            };
+        };
             
-            await LayoutModel.create(banner);
+        await LayoutModel.create(banner);
             
             return res.status(200).json({
                 success: true,
                 message: "Banner created successfully",
             });
-        }
+      }
       if(type === "Faq"){
         const { faq } = req.body;
         const faqItems = faq.map((item: any) => ({
