@@ -44,7 +44,8 @@ export const registerUser = catchAsyncError(
 
     const { token, activationCode } = createActivationToken(user);
 
-    await sendMail({
+    // Send activation email (non-blocking)
+    sendMail({
       email: user.email,
       subject: "Activate your account",
       template: "activation-mail.ejs",
@@ -54,6 +55,9 @@ export const registerUser = catchAsyncError(
         },
         activationCode,
       },
+    }).catch((error: any) => {
+      console.error("Failed to send activation email:", error.message);
+      // Don't throw - registration should succeed even if email fails
     });
 
     res.status(201).json({

@@ -43,6 +43,7 @@ export const generateLast12MonthsData = async <T extends Document>(
             count,
     });
    }
+   
 
     return { last12Months };
 };

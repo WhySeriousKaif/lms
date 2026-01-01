@@ -9,6 +9,7 @@ interface Props {}
 const Page: FC<Props> = () => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
+  const[route, setRoute] = useState("Login");
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#0f172a] transition-colors duration-300">
@@ -17,7 +18,7 @@ const Page: FC<Props> = () => {
         description="Elearning is a platform for students to learn online and get help from the best teachers"
         keywords="Elearning, learning, courses, teachers, Mern Stack, React, Node.js, MongoDB, Express, Tailwind CSS, JavaScript, TypeScript, HTML, CSS"
       />
-      <Header open={open} setOpen={setOpen} activeItem={activeItem} />
+      <Header open={open} setOpen={setOpen} activeItem={activeItem} route={route} setRoute={setRoute} />
       <Hero />
     </div>
   );

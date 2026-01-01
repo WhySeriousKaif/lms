@@ -64,7 +64,8 @@ const sendMail = async (options: EmailOptions): Promise<void> => {
       console.error('   2. Generate an App Password (not your regular password)');
       console.error('   3. Use the App Password in SMTP_PASSWORD');
     }
-    throw new Error(`Failed to send email: ${error.message}`);
+    // Don't throw - let the calling code handle it
+    console.error('   Email sending failed, but registration will continue');
   }
 };
 

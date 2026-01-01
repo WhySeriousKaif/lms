@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {Poppins} from "next/font/google";
-import {Josefin_Sans} from "next/font/google";
+import { Poppins } from "next/font/google";
+import { Josefin_Sans } from "next/font/google";
 import { ThemeProvider } from "./utils/Theme-provider";
+import Provider from "./Provider";
+import { Toaster } from "react-hot-toast";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -14,7 +16,6 @@ const josefinSans = Josefin_Sans({
   weight: ["400", "500", "600", "700"],
   variable: "--font-josefin-sans",
 });
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -32,14 +33,17 @@ export default function RootLayout({
         className={`${poppins.variable} ${josefinSans.variable} bg-white dark:bg-gray-900 transition-colors duration-300`}
         suppressHydrationWarning
       >
-        <ThemeProvider
+        <Provider>
+          <ThemeProvider
             attribute="class"
             defaultTheme="light"
             enableSystem={false}
             storageKey="theme"
-        >
+          >
             {children}
-        </ThemeProvider>
+            <Toaster position="top-center" />
+          </ThemeProvider>
+        </Provider>
       </body>
     </html>
   );

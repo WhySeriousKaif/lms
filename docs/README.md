@@ -1,5 +1,6 @@
 # LMS Backend Documentation
-
+npm install @mui/icons-material @mui/material @emotion/styled @emotion/react react-hot-toast rea
+ct-redux @reactjs/toolkit formik yup
 ## 📚 Documentation Index
 
 This documentation is organized into multiple files for easy navigation:
