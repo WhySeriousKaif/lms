@@ -1,32 +1,50 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const initialState = {
-    user: null as any,
+/**
+ * Auth state interface
+ */
+interface AuthState {
+    user: any | null
+    token: string
+}
+
+const initialState: AuthState = {
+    user: null,
     token: "",
 }
 
+/**
+ * Auth slice - manages authentication state
+ */
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        userRegistration: (state, action) => {
-            state.token= action.payload.token
-            state.user= action.payload.user
+        /**
+         * Set registration token (for email activation)
+         */
+        userRegistration: (state, action: PayloadAction<{ token: string; user?: any }>) => {
+            state.token = action.payload.token
+            if (action.payload.user) {
+                state.user = action.payload.user
+            }
         },
-        userLoggedIn: (state, action) => {
-            console.log("Redux: userLoggedIn action dispatched", action.payload);
+        
+        /**
+         * Set user as logged in with access token and user data
+         */
+        userLoggedIn: (state, action: PayloadAction<{ accessToken: string; user: any }>) => {
             state.token = action.payload.accessToken
             state.user = action.payload.user
-            console.log("Redux: State updated - user:", state.user, "token:", state.token);
         },
+        
+        /**
+         * Clear auth state on logout
+         */
         userLoggedOut: (state) => {
-            console.log("Redux: userLoggedOut action dispatched");
             state.token = ""
             state.user = null
-            console.log("Redux: State cleared - user:", state.user, "token:", state.token);
         }
-    
-
     }
 })
 

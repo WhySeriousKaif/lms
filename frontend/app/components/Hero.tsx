@@ -1,5 +1,5 @@
 'use client'
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { BiSearch } from "react-icons/bi";
 import Link from "next/link";
@@ -7,13 +7,28 @@ import { useTheme } from "next-themes";
 
 type Props = {};
 
+/**
+ * Hero Section Component
+ * Main landing section with hero content
+ * - Light mode: White background, black text, green hover
+ * - Dark mode: Blue background (#0f172a), white text, green hover
+ */
 const Hero: FC<Props> = () => {
   const { theme } = useTheme();
-  
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const backgroundColor = mounted && theme === 'dark' ? '#0f172a' : '#ffffff';
+  const textColor = mounted && theme === 'dark' ? '#ffffff' : '#000000';
+  const descriptionColor = mounted && theme === 'dark' ? '#d1d5db' : '#000000';
+
   return (
     <section 
-      className="w-full bg-white dark:bg-[#0f172a] min-h-screen flex items-center pt-24 pb-16 transition-colors duration-300"
-      style={{ backgroundColor: theme === 'dark' ? '#0f172a' : '#ffffff' }}
+      className="w-full min-h-screen flex items-center pt-24 pb-16 transition-colors duration-300"
+      style={{ backgroundColor }}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-0 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -42,34 +57,30 @@ const Hero: FC<Props> = () => {
             
             {/* Main Heading */}
             <h1 
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-Josefin leading-tight text-black dark:text-white"
-              style={{ color: theme === 'dark' ? '#ffffff' : '#000000' }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-Josefin leading-tight transition-colors duration-200"
+              style={{ color: textColor }}
             >
           Improve Your Online Learning Experience Better Instantly
             </h1>
             
             {/* Description */}
             <p 
-              className="text-lg sm:text-xl text-gray-900 dark:text-gray-300 font-Josefin font-medium leading-relaxed max-w-2xl"
-              style={{ color: theme === 'dark' ? '#d1d5db' : '#111827' }}
+              className="text-lg sm:text-xl font-Josefin font-medium leading-relaxed max-w-2xl transition-colors duration-200"
+              style={{ color: descriptionColor }}
             >
           We have 40k+ Online courses & 500K+ Online registered student. Find your desired Courses from them.
         </p>
             
             {/* Search Bar */}
-            <div className="relative w-full max-w-xl pt-2">
+            <div className="relative w-full max-w-xl mt-4">
           <input
             type="search"
             placeholder="Search Courses..."
-                className="w-full h-14 sm:h-16 pl-6 pr-20 rounded-xl bg-white dark:bg-slate-800 border-2 border-gray-400 dark:border-slate-600 text-black dark:text-white placeholder-gray-700 dark:placeholder-gray-400 text-lg font-medium font-Josefin focus:outline-none focus:ring-4 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 focus:border-blue-600 dark:focus:border-blue-400 transition-all shadow-sm hover:shadow-md"
-                style={{ 
-                  color: theme === 'dark' ? '#ffffff' : '#000000',
-                  backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff'
-                }}
+                className="w-full h-14 sm:h-16 pl-6 pr-[90px] sm:pr-[100px] rounded-xl  bg-white dark:bg-slate-800 border-2 border-r-0 border-gray-400 dark:border-slate-600 text-black dark:text-white placeholder-gray-700 dark:placeholder-gray-400 text-lg font-medium font-Josefin focus:outline-none focus:ring-4 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 focus:border-blue-600 dark:focus:border-blue-400 transition-all shadow-sm hover:shadow-md"
               />
               <button
                 type="button"
-                className="absolute right-0 top-0 h-14 sm:h-16 w-16 sm:w-20 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-r-xl flex items-center justify-center transition-all shadow-md hover:shadow-lg"
+                className="absolute right-0 top-0 h-14 sm:h-16 w-16 sm:w-20 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-r-xl rounded-l-none flex items-center justify-center transition-all shadow-md hover:shadow-lg border-2 border-l-0 border-blue-600 dark:border-blue-500"
                 aria-label="Search courses"
               >
                 <BiSearch className="text-white text-2xl" />
@@ -94,15 +105,15 @@ const Hero: FC<Props> = () => {
               {/* Trust Text */}
               <div className="flex flex-wrap items-center gap-2">
                 <p 
-                  className="text-base sm:text-lg text-black dark:text-gray-100 font-Josefin font-semibold"
-                  style={{ color: theme === 'dark' ? '#f3f4f6' : '#000000' }}
+                  className="text-base sm:text-lg font-Josefin font-semibold transition-colors duration-200"
+                  style={{ color: textColor }}
                 >
                   500K+ People already trusted us.
                 </p>
             <Link
               href="/courses"
-                  className="text-base sm:text-lg text-blue-700 dark:text-emerald-400 font-Josefin font-semibold hover:underline transition-all hover:text-blue-800 dark:hover:text-emerald-300"
-                  style={{ color: theme === 'dark' ? '#34d399' : '#1d4ed8' }}
+                  className="text-base sm:text-lg font-Josefin font-semibold hover:text-[#37a39a] hover:underline transition-colors duration-200"
+                  style={{ color: textColor }}
             >
               View Courses
             </Link>

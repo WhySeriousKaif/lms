@@ -4,6 +4,12 @@ import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 import { BiSun, BiMoon } from "react-icons/bi";
 
+/**
+ * Theme Switcher Component
+ * Toggles between light and dark mode
+ * - Light mode: Shows moon icon (black, green on hover)
+ * - Dark mode: Shows sun icon (white, green on hover)
+ */
 const ThemeSwitcher = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -21,28 +27,24 @@ const ThemeSwitcher = () => {
   }
 
   const toggleTheme = () => {
-    if (theme === "dark") {
-      setTheme("light");
-    } else {
-      setTheme("dark");
-  }
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   return (
     <div className="flex items-center gap-2">
-        {theme === "dark" ? (
-          <BiSun
-          className="cursor-pointer text-white hover:text-[#37a39a] transition-colors"
-            size={25}
+      {theme === "dark" ? (
+        <BiSun
+          className="cursor-pointer text-white hover:text-[#37a39a] transition-colors duration-200"
+          size={25}
           onClick={toggleTheme}
-          />
-        ) : (
-          <BiMoon
-          className="cursor-pointer text-black hover:text-[#37a39a] transition-colors"
-            size={25}
+        />
+      ) : (
+        <BiMoon
+          className="cursor-pointer text-black hover:text-[#37a39a] transition-colors duration-200"
+          size={25}
           onClick={toggleTheme}
-          />
-        )}
+        />
+      )}
     </div>
   );
 };

@@ -22,13 +22,12 @@
 
 
 body {
-  background: #ffffff;
+  /* Remove fixed background to let components control their own backgrounds */
   color: #171717;
 }
 
-/* Dark mode background - Deep blue */
+/* Dark mode text color */
 .dark body {
-  background: #0f172a;
   color: #f1f5f9;
 }
 

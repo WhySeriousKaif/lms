@@ -94,11 +94,11 @@ const Header: FC<Props> = ({ open, setOpen, activeItem, route, setRoute }) => {
         setMounted(true);
     }, []);
 
-    // Determine background color based on theme (use default 'light' during SSR)
+    // Determine theme for background colors (use default 'light' during SSR)
     const currentTheme = mounted ? theme : 'light';
     const bgColor = currentTheme === 'dark' ? 'bg-[#0f172a]' : 'bg-white';
-    const textColor = currentTheme === 'dark' ? 'text-white' : 'text-black';
     const borderColor = currentTheme === 'dark' ? 'border-[#ffffff1c]' : 'border-[#00000014]';
+    const headerTextColor = mounted && currentTheme === 'dark' ? '#ffffff' : '#000000';
    
   return (
     <div className='w-full relative'>
@@ -112,8 +112,8 @@ const Header: FC<Props> = ({ open, setOpen, activeItem, route, setRoute }) => {
                         <div>
                             <Link 
                                 href="/" 
-                                className="text-[25px] font-Poppins font-[500]"
-                                style={{ color: mounted && currentTheme === 'dark' ? '#ffffff' : '#000000' }}
+                                className="text-[25px] font-Poppins font-[500] hover:text-[#37a39a] transition-colors duration-200"
+                                style={{ color: headerTextColor }}
                                 suppressHydrationWarning
                             >
                                 ELearning
@@ -150,8 +150,7 @@ const Header: FC<Props> = ({ open, setOpen, activeItem, route, setRoute }) => {
                                 ) : (
                                     <HiOutlineUserCircle
                                         size={25}
-                                        className={`cursor-pointer ${textColor}`}
-                                        style={{ color: mounted && currentTheme === 'dark' ? '#ffffff' : '#000000' }}
+                                        className="cursor-pointer text-black dark:text-blue-600 hover:text-[#37a39a] transition-colors duration-200"
                                         onClick={() => {
                                             setRoute("Login");
                                             setOpen(true);
@@ -163,9 +162,8 @@ const Header: FC<Props> = ({ open, setOpen, activeItem, route, setRoute }) => {
                             {/* Mobile menu icon - only visible on mobile */}
                             <div className="flex md:hidden items-center">
                                 <HiOutlineMenuAlt3
-                                    className={`${textColor} cursor-pointer`}
+                                    className="cursor-pointer text-black dark:text-white hover:text-[#37a39a] transition-colors duration-200"
                                     size={25}
-                                    style={{ color: mounted && currentTheme === 'dark' ? '#ffffff' : '#000000' }}
                                     onClick={() => setOpenSidebar(true)}
                                     suppressHydrationWarning
                                 />
@@ -201,16 +199,14 @@ const Header: FC<Props> = ({ open, setOpen, activeItem, route, setRoute }) => {
                             >
                                 <Link 
                                     href="/" 
-                                    className="text-[20px] font-Poppins font-[500]"
-                                    style={{ color: mounted && currentTheme === 'dark' ? '#ffffff' : '#000000' }}
+                                    className="text-[20px] font-Poppins font-[500] text-black dark:text-white hover:text-[#37a39a] transition-colors duration-200"
                                     suppressHydrationWarning
                                 >
                                     ELearning
                                 </Link>
                                 <HiX
-                                    className="cursor-pointer"
+                                    className="cursor-pointer text-black dark:text-white hover:text-[#37a39a] transition-colors duration-200"
                                     size={25}
-                                    style={{ color: mounted && currentTheme === 'dark' ? '#ffffff' : '#000000' }}
                                     onClick={() => setOpenSidebar(false)}
                                     suppressHydrationWarning
                                 />
@@ -228,11 +224,7 @@ const Header: FC<Props> = ({ open, setOpen, activeItem, route, setRoute }) => {
                                     {user ? (
                                         <Link href="/profile" onClick={() => setOpenSidebar(false)}>
                                             <div 
-                                                className="flex items-center gap-3 cursor-pointer py-3 px-6 transition-colors"
-                                                style={{ color: mounted && currentTheme === 'dark' ? '#ffffff' : '#000000' }}
-                                                onMouseEnter={(e) => e.currentTarget.style.color = '#37a39a'}
-                                                onMouseLeave={(e) => e.currentTarget.style.color = mounted && currentTheme === 'dark' ? '#ffffff' : '#000000'}
-                                                suppressHydrationWarning
+                                                className="flex items-center gap-3 cursor-pointer py-3 px-6 text-black dark:text-white hover:text-[#37a39a] transition-colors duration-200"
                                             >
                                                 <Image
                                                     src={user.avatar?.url || "/assests/profile-icon-png-898.png"}
@@ -249,11 +241,7 @@ const Header: FC<Props> = ({ open, setOpen, activeItem, route, setRoute }) => {
                                         </Link>
                                     ) : (
                                         <div 
-                                            className="flex items-center gap-3 cursor-pointer py-3 px-6 transition-colors"
-                                            style={{ color: mounted && currentTheme === 'dark' ? '#ffffff' : '#000000' }}
-                                            onMouseEnter={(e) => e.currentTarget.style.color = '#37a39a'}
-                                            onMouseLeave={(e) => e.currentTarget.style.color = mounted && currentTheme === 'dark' ? '#ffffff' : '#000000'}
-                                            suppressHydrationWarning
+                                            className="flex items-center gap-3 cursor-pointer py-3 px-6 text-black dark:text-white hover:text-[#37a39a] transition-colors duration-200"
                                             onClick={() => {
                                                 setOpenSidebar(false);
                                                 setRoute("Login");
@@ -262,8 +250,7 @@ const Header: FC<Props> = ({ open, setOpen, activeItem, route, setRoute }) => {
                                         >
                                             <HiOutlineUserCircle
                                                 size={25}
-                                                style={{ color: mounted && currentTheme === 'dark' ? '#ffffff' : '#000000' }}
-                                                suppressHydrationWarning
+                                                className="text-black dark:text-white"
                                             />
                                             <span className="text-[18px] font-Poppins font-[400]">
                                                 Profile

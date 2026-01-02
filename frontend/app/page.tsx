@@ -12,7 +12,7 @@ const Page: FC<Props> = () => {
   const[route, setRoute] = useState("Login");
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0f172a] transition-colors duration-300">
+    <div className="min-h-screen transition-colors duration-300">
       <Heading
         title="Elearning"
         description="Elearning is a platform for students to learn online and get help from the best teachers"
